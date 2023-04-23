@@ -1,19 +1,22 @@
 <?php
 //INCLUDE THE ACCESS TOKEN FILE
 include 'accessToken.php';
+include ('functions.php');
 date_default_timezone_set('Africa/Nairobi');
+
+if(isset($_POST['submit'])){
 $processrequestUrl = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
-$callbackurl = 'https://kariukijames.com/pesa/callback.php';
+$callbackurl = 'https://salvacar.co.ke/pesa/callback.php';
 $passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
-$BusinessShortCode = '174379';
+$BusinessShortCode = '174379'; //change to your short code
 $Timestamp = date('YmdHis');
 // ENCRIPT  DATA TO GET PASSWORD
 $Password = base64_encode($BusinessShortCode . $passkey . $Timestamp);
-$phone = '254768168060';
-$money = '1';
+$phone = ($_POST['phone']);
+$money = ($_POST['amount']);
 $PartyA = $phone;
-$PartyB = '254708374149';
-$AccountReference = 'UMESKIA SOFTWARES';
+$PartyB = '254708374149'; //can be the same as short code
+$AccountReference = 'SALVACAR TECH';
 $TransactionDesc = 'stkpush test';
 $Amount = $money;
 $stkpushheader = ['Content-Type:application/json', 'Authorization:Bearer ' . $access_token];
@@ -48,4 +51,6 @@ $CheckoutRequestID = $data->CheckoutRequestID;
 $ResponseCode = $data->ResponseCode;
 if ($ResponseCode == "0") {
  // echo "The CheckoutRequestID for this transaction is : " . $CheckoutRequestID;
+}
+
 }
